@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 import { Redirect } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { save } from "../../utils/secureStore";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AddSystem = () => {
   const router = useRouter();
@@ -39,7 +40,10 @@ const AddSystem = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+		colors={['#a3d1c0','#E7FFF4','#D9EDDF','#8cd1b7']} // Adjust colors as desired
+		style={styles.container}
+	  >
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
@@ -89,7 +93,7 @@ const AddSystem = () => {
           </View>
         </View>
       </Modal>
-    </View>
+    </LinearGradient>
   );
 };
 

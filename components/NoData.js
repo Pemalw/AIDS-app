@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   warningText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 20,
     marginTop: 25,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   subtext: {
-    fontSize: 14,
+    fontSize: 12,
     textAlign: 'center',
   },
 });

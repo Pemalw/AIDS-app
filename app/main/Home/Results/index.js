@@ -60,6 +60,7 @@ export default function Home() {
       // }
       if (message.destinationName === "animal") {
         const newItem = message.payloadString.toString().split("####");
+        console.log(newItem);
         setValue(prevValue => [newItem, ...prevValue]); // Update the state with new item at the beginning
         setReceivedData(true); // Trigger re-render of CurrentTab
       }

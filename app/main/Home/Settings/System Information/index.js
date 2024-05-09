@@ -5,6 +5,7 @@ import Modal from 'react-native-modal';
 import { useRouter } from 'expo-router';
 import { useNavigation } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
+import {LinearGradient} from 'expo-linear-gradient';
 
 const SystemInformation = (props) => {
     const router = useRouter();
@@ -36,6 +37,10 @@ const SystemInformation = (props) => {
     }
     
     return(
+      <LinearGradient
+		colors={['#E7FFF4','#D9EDDF']}
+        style={{flex:1}}
+		>
         <View style={styles.container}>
             <View style={styles.infoContainer}>
                 <Text style={styles.infoText}>System ID</Text>
@@ -93,6 +98,7 @@ const SystemInformation = (props) => {
                 <Text style={styles.delSystemText}>Remove System</Text>
             </TouchableOpacity>
         </View>
+      </LinearGradient>
     );
 }
 

@@ -5,6 +5,7 @@ import Modal from 'react-native-modal';
 import { useNavigation } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Settings = () => {
     const navigation = useNavigation(); 
@@ -64,6 +65,10 @@ const Settings = () => {
     }
 
     return (
+        <LinearGradient
+		colors={['#E7FFF4','#D9EDDF']}
+        style={{flex:1}}
+		>
         <View style={styles.container}>
             <TouchableOpacity style={styles.infoContainer}  onPress={handleSystemPress}>
                 <Text style={styles.infoText}>System</Text>
@@ -129,6 +134,7 @@ const Settings = () => {
                 </View>
             </Modal>
         </View>
+        </LinearGradient>
     );
 };
 

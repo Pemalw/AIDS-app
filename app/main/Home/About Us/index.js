@@ -15,10 +15,6 @@ const AboutUs  = () => {
 export default AboutUs;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        margin: 20,
-    },
     carContainer: {
         flex: 1,
         flexDirection: 'column',

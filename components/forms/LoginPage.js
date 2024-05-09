@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, } from 'react-native';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
-
+import { LinearGradient } from 'expo-linear-gradient';
 import {save} from '..//..//utils/secureStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from 'expo-router';
+
 const LoginPage = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
-
+  const navigation = useNavigation(); 
   const [usernameIsInvalid, setUsernameIsInvalid] = useState("");
 
   const handleSignIn = () => {
@@ -21,7 +24,9 @@ const LoginPage = () => {
       console.log(response.data); // handle success
       save("uNameToken", username);
       save("uPwordToken", password);
-      router.push('/main');
+      // router.push('/auth/systemLogin');
+      router.push('/auth/userLogin/systemLogin');
+      // navigation.navigate('systemLogin');
     })
     .catch(error => {
       console.error('Error:', error); // handle error
@@ -50,11 +55,25 @@ const LoginPage = () => {
     alert('Forgot password functionality not yet implemented.');
   };
 
+  const clearOnBoarding = async () => {
+    try {
+      await AsyncStorage.removeItem("@viewedOnboarding");
+    } catch (error) {
+      console.log("Error @clearOnboarding: ", error);
+    }
+  };
+
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-        
+    <LinearGradient
+		colors={['#a3d1c0','#E7FFF4','#D9EDDF','#8cd1b7']} // Adjust colors as desired
+		style={styles.container}
+	>
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/logo.png")}
+      />
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -82,7 +101,10 @@ const LoginPage = () => {
         <Text style={styles.loginText}>Sign In</Text>
       </TouchableOpacity>
       <Text style={{color:"red"}}>{errorMsg}</Text>
-    </View>
+      <TouchableOpacity onPress={clearOnBoarding}>
+        <Text>Clear Onboarding</Text>
+      </TouchableOpacity>
+    </LinearGradient>
   );
 };
 

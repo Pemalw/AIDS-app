@@ -2,6 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import { StyleSheet, View, Text, ScrollView, Image} from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const DataAnalysis = () => {
   const [datas, setDatas] = useState([]);
@@ -10,8 +11,8 @@ const DataAnalysis = () => {
   const backendUrl = 'http://127.0.0.1:5050'; // Replace with your actual values
 
   const getData = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:5050/analysis/getanimals'); // Replace with your endpoint URL
+    try {//
+      const response = await axios.get('http://192.168.219.188:5050/analysis/getanimals'); // Replace with your endpoint URL
       
       
       setDatas(response.data);
@@ -66,6 +67,9 @@ const DataAnalysis = () => {
   };
 
   return (
+    <LinearGradient
+		colors={['#a3d1c0','#D9EDDF','#8cd1b7']} // Adjust colors as desired
+		>
     <ScrollView style={styles.main}>
       <View style={styles.totalDataContainer}>
         <View style={styles.sepDataContainer}>
@@ -80,12 +84,11 @@ const DataAnalysis = () => {
           <Text style={styles.numberData}>{datas.length==0?0:datas.Sums.length}</Text>
         </View>
       </View>
-      <Text style={styles.text}>Data Analysis</Text>
       <View style={styles.container}>
         <LineChart
           data={data}
-          width={400}
-          height={300}
+          width={350}
+          height={250}
           chartConfig={{
             backgroundColor: '#ffffff',
             backgroundGradientFrom: '#ffffff',
@@ -106,6 +109,7 @@ const DataAnalysis = () => {
           style={styles.chart}
         />
       </View>
+      <Text style={styles.text}>Graph depicting number of times animals were detected and when</Text>
       <View style={styles.table}>
         <View style={styles.dataContainer}>
           <Image source={require('../../../../assets/images/Bear.jpg')} style={styles.imgItems}/>
@@ -158,6 +162,7 @@ const DataAnalysis = () => {
         </View>
       </View>
     </ScrollView>
+    </LinearGradient>
   );
 };
 
@@ -170,7 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#ffffff',
     paddingTop: 10,
-    marginHorizontal: 10,
+    marginHorizontal: 15,
     marginVertical: 10,
     borderRadius: 15,
   },
@@ -192,11 +197,11 @@ const styles = StyleSheet.create({
   totalDataText: {
     fontWeight: 'bold',
     color: '#f0fcf9',
-    fontSize: 14,
+    fontSize: 12,
   },
   numberData:{
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 26,
     color: '#f0fcf9',
     textAlign: 'center',
     paddingTop: 5,
@@ -212,10 +217,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   text: {
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '300',
+    fontStyle:'italic',
     textAlign: 'center',
-    marginTop: 18,
+    marginHorizontal: 5,
+    marginBottom: 18,
   },
   table:{
     backgroundColor: '#ffffff',
@@ -231,19 +238,19 @@ const styles = StyleSheet.create({
     borderBottomColor: '#c2c1c0',
   },
   imgItems:{
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderRadius: 10,
     marginVertical: 8,
   },
   itemsText: {
-    fontSize: 18,
+    fontSize: 16,
     paddingLeft: 15,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 5,
   },
   itemSubText: {
-    fontSize: 14,
+    fontSize: 12,
     paddingLeft: 15,
     marginBottom: 8,
   }

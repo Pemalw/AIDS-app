@@ -9,6 +9,8 @@ import {
   Button,
   RefreshControl,
 } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 const CurrentTab = ({ datas }) => {
 
@@ -36,20 +38,20 @@ const CurrentTab = ({ datas }) => {
     }, 1000); // Simulate a 1-second delay
   }, []);
 
-  function isNow() {
-    var nos=""
-    var nos=datas.length !== 0? datas[3] : "2024-01-29 12:15:00"
-    const timestamp = new Date(nos).getTime();
-    const currentTime = new Date().getTime(); // Get current timestamp
+  // function isNow() {
+  //   var nos=""
+  //   var nos=datas.length !== 0? datas[3] : "2024-01-29 12:15:00"
+  //   const timestamp = new Date(nos).getTime();
+  //   const currentTime = new Date().getTime(); // Get current timestamp
 
-    const timeDiff = (currentTime - timestamp) / (1000 * 60); // Convert milliseconds to minutes
+  //   const timeDiff = (currentTime - timestamp) / (1000 * 60); // Convert milliseconds to minutes
 
-    if (timeDiff <= 5) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  //   if (timeDiff <= 5) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   const styles = StyleSheet.create({
     main: {
@@ -103,14 +105,20 @@ const CurrentTab = ({ datas }) => {
       Monkey: require("../assets/images/Monkey.jpg")
     };
     const animalarr=["Bear","Boar","Cattle","Deer","Elephant","Horse","Monkey"]
+
     return (
-      <View style={styles.container}>
+      <LinearGradient
+		colors={['#a3d1c0','#D9EDDF','#8cd1b7']} // Adjust colors as desired
+		style={styles.container}
+		>
+      {/* <View style={styles.container}> */}
         <Text style={styles.text}>{item[1]}</Text>
         <Text style={styles.text}>{item[3]}</Text>
         {/* <Text style={styles.text}>CT: {currentTime}</Text> */}
         <Image style={styles.image} source={imageMapping[animalarr[item[0]]]} />
         <Text style={styles.animalText}>{animalarr[item[0]]}</Text>
-      </View>
+      {/* </View> */}
+      </LinearGradient>
     );
   };
 

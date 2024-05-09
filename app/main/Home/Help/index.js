@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ContactUs from '../../../../components/contactUs';
-import AlertCarousal from '../../../../components/AlertCarousal';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const faqData = [
   {
@@ -36,7 +36,11 @@ const Help = () => {
   };
 
   return (
-    <ScrollView style={styles.scrollView} >
+    <LinearGradient
+		colors={['#E7FFF4','#D9EDDF']}
+    style={styles.scrollView}
+		>
+    <ScrollView >
       <View style={styles.container}>
         <Text style={styles.title} >Help Center</Text>
 
@@ -57,6 +61,7 @@ const Help = () => {
         <ContactUs/>
         <Text style={styles.thankYou}>Thank you for choosing Animal Intrusion Detection.</Text>
     </ScrollView>
+    </LinearGradient>
   );
 };
 
