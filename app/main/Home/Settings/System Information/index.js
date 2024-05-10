@@ -33,7 +33,7 @@ const SystemInformation = (props) => {
 
     const systemRemove =async() => {
         const systemCred = await SecureStore.deleteItemAsync('sysCred');
-        router.push('/auth/systemLogin');
+        router.push('/auth/userLogin/systemLogin');
     }
     
     return(

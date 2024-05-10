@@ -1,68 +1,122 @@
 import React, { useState, useEffect }  from 'react';
 import { StyleSheet, View, Text, ScrollView, Image} from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
-import axios from 'axios';
+// import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const DataAnalysis = () => {
-  const [datas, setDatas] = useState([]);
+  const [datas, setDatas] = useState(null);
   const [tot, setTot]=useState(0);
+  const [bear, setBear]=useState([]);
+  const [boar, setBoar]=useState([]);
+  const [cattle, setCattle]=useState([]);
+  const [deer, setDeer]=useState([]);
+  const [elephant, setElephant]=useState([]);
+  const [horse, setHorse]=useState([]);
+  const [monkey, setMonkey]=useState([]);
+  const [sum, setSum]=useState([]);
+  const [dates, setDates]=useState([]);
+  const [rec, setRec]=useState(false);
+
+  const getLength=(arr)=>{return arr.length;}
+
 
   const backendUrl = 'http://127.0.0.1:5050'; // Replace with your actual values
 
-  const getData = async () => {
-    try {//
-      const response = await axios.get('http://192.168.219.188:5050/analysis/getanimals'); // Replace with your endpoint URL
-      
-      
-      setDatas(response.data);
-      let temp=0;
-
-      for(let i=0; i<response.data.Sums.length; i++){
-        temp=temp+response.data.Sums[i];
-      }
-      setTot(temp);
-      
-    } catch (error) {
-      
-    } 
-  };
+  
   useEffect(() => {
-    getData();
-  }, [datas]);
+
+    
+    const fetchData=async()=>{
+      try {//
+        fetch('http://192.168.219.188:5050/analysis/getanimals').then(response=>response.json()).then( data=>{
+          setBear(data.Bear);
+          setBoar(data.Boar);
+          setCattle(data.Cattle);
+          setDeer(data.Deer);
+          setElephant(data.Elephant);
+          setHorse(data.Horse);
+          setMonkey(data.Monkey);
+          setSum(data.Sums);
+          setDates(data.Dates);
+          // setTot(temp);
+          
+          let temp=0;
+
+          for(let i=0; i<data.Sums.length; i++){
+            temp=temp+data.Sums[i];
+          }
+
+          setTot(temp);
+          setRec(true);
+        console.log(data);
+      }).catch(err=>{
+          setRec(false);
+          
+          console.log("My :error");
+      });
+      //   try{
+  
+      //   for(let i=0; i<response.data.Sums.length; i++){
+      //     temp=temp+response.data.Sums[i];
+      //   }
+      //   setTot(temp);
+      // }catch(err){
+      //     setTot(0);
+      //   }
+      //setRec(false);
+      } catch (error) {
+        setRec(false);
+        console.log(err);
+      } 
+     
+    }
+    
+    fetchData();
+    
+  }, [bear]);
 
   const data = {
-    labels: datas.length===0?['5', '10', '15', '20', '25', '30']: datas.Dates,
+    labels: dates,
     datasets: [
       {
-        data: datas.length===0?[20, 45, 28, 80, 99, 43]:datas.Bear,
+        data: bear,
         color: (opacity = 1) => `rgba(219, 35, 29, ${opacity})`
       },
       {
-        data: datas.length===0?[20, 45, 28, 80, 99, 43]:datas.Boar,
+        data: boar,
         color: (opacity = 1) => `rgba(247, 149, 2, ${opacity})`
       },
       {
-        data: datas.length===0?[20, 45, 28, 80, 99, 43]:datas.Cattle,
+        data: cattle,
         color: (opacity = 1) => `rgba(247, 243, 2, ${opacity})`
 
       },
       {
-        data: datas.length===0?[20, 45, 28, 80, 99, 43]:datas.Deer,
+        data: deer,
         color: (opacity = 1) => `rgba(19, 247, 2, ${opacity})`
       },
       {
-        data: datas.length===0?[20, 45, 28, 80, 99, 43]:datas.Elephant,
+        data: elephant,
         color: (opacity = 1) => `rgba(2, 247, 215, ${opacity})`
       },
       {
-        data: datas.length===0?[20, 45, 28, 80, 99, 43]:datas.Horse,
+        data: horse,
         color: (opacity = 1) => `rgba(2, 2, 247, ${opacity})`
       },
       {
-        data: datas.length===0?[20, 45, 28, 80, 99, 43]:datas.Monkey,
+        data: monkey,
         color: (opacity = 1) => `rgba(247, 2, 76, ${opacity})`
       }
+    ],
+  };
+
+  const demo = {
+    labels: ['5', '10', '15', '20', '25', '30'],
+    datasets: [
+      {
+        data: [20, 45, 28, 80, 99, 43],
+      },
     ],
   };
 
@@ -75,20 +129,21 @@ const DataAnalysis = () => {
         <View style={styles.sepDataContainer}>
           <Text numberOfLines={2} style={styles.totalDataText}>Total no. of Animals</Text>
           <Text numberOfLines={2} style={styles.totalDataText}>Detected: </Text>
-          <Text style={styles.numberData}>{datas.length==0?0:tot}</Text>
+          <Text style={styles.numberData}>{rec?tot:0}</Text>
         </View>
         <View style={styles.line}></View>
         <View style={styles.sepDataContainer}>
           <Text style={styles.totalDataText}>Types of Animals</Text>
           <Text numberOfLines={2} style={styles.totalDataText}>Detected:  </Text>
-          <Text style={styles.numberData}>{datas.length==0?0:datas.Sums.length}</Text>
+          <Text style={styles.numberData}>{rec?getLength(sum):0}</Text>
         </View>
       </View>
       <View style={styles.container}>
-        <LineChart
-          data={data}
+      <LineChart
+          data={rec?data:demo}
           width={350}
-          height={250}
+          height={440}
+          verticalLabelRotation={90}
           chartConfig={{
             backgroundColor: '#ffffff',
             backgroundGradientFrom: '#ffffff',
@@ -107,7 +162,7 @@ const DataAnalysis = () => {
           }}
           bezier
           style={styles.chart}
-        />
+        /> 
       </View>
       <Text style={styles.text}>Graph depicting number of times animals were detected and when</Text>
       <View style={styles.table}>
@@ -115,49 +170,49 @@ const DataAnalysis = () => {
           <Image source={require('../../../../assets/images/Bear.jpg')} style={styles.imgItems}/>
           <View>
             <Text style={styles.itemsText}>Bear</Text>
-            <Text style={styles.itemSubText}>Number of Times Detected: {datas.length==0?'':datas.Sums[0]} </Text>
+            <Text style={styles.itemSubText}>Number of Times Detected: {rec?sum[0]:''} </Text>
           </View>
         </View>
         <View style={styles.dataContainer}>
           <Image source={require('../../../../assets/images/Boar.jpg')} style={styles.imgItems}/>
           <View>
             <Text style={styles.itemsText}>Boar</Text>
-            <Text style={styles.itemSubText}>Number of Times Detected: {datas.length==0?'':datas.Sums[1]}</Text>
+            <Text style={styles.itemSubText}>Number of Times Detected: {rec?sum[1]:''}</Text>
           </View>
         </View>
         <View style={styles.dataContainer}>
           <Image source={require('../../../../assets/images/Cattle.jpg')} style={styles.imgItems}/>
           <View>
             <Text style={styles.itemsText}>Cattle</Text>
-            <Text style={styles.itemSubText}>Number of Times Detected: {datas.length==0?'':datas.Sums[2]}</Text>
+            <Text style={styles.itemSubText}>Number of Times Detected: {rec?sum[2]:''}</Text>
           </View>
         </View>
         <View style={styles.dataContainer}>
           <Image source={require('../../../../assets/images/Deer.jpg')} style={styles.imgItems}/>
           <View>
             <Text style={styles.itemsText}>Deer</Text>
-            <Text style={styles.itemSubText}>Number of Times Detected: {datas.length==0?'':datas.Sums[3]}</Text>
+            <Text style={styles.itemSubText}>Number of Times Detected: {rec?sum[3]:''}</Text>
           </View>
         </View>
         <View style={styles.dataContainer}>
           <Image source={require('../../../../assets/images/Elephant.jpg')} style={styles.imgItems}/>
           <View>
             <Text style={styles.itemsText}>Elephant</Text>
-            <Text style={styles.itemSubText}>Number of Times Detected: {datas.length==0?'':datas.Sums[4]}</Text>
+            <Text style={styles.itemSubText}>Number of Times Detected: {rec?sum[4]:''}</Text>
           </View>
         </View>
         <View style={styles.dataContainer}>
           <Image source={require('../../../../assets/images/Horse.jpg')} style={styles.imgItems}/>
           <View>
             <Text style={styles.itemsText}>Horse</Text>
-            <Text style={styles.itemSubText}>Number of Times Detected: {datas.length==0?'':datas.Sums[5]}</Text>
+            <Text style={styles.itemSubText}>Number of Times Detected: {rec?sum[5]:''}</Text>
           </View>
         </View>
         <View style={styles.dataContainer}>
           <Image source={require('../../../../assets/images/Monkey.jpg')} style={styles.imgItems}/>
           <View>
             <Text style={styles.itemsText}>Monkey</Text>
-            <Text style={styles.itemSubText}>Number of Times Detected: {datas.length==0?'':datas.Sums[6]}</Text>
+            <Text style={styles.itemSubText}>Number of Times Detected: {rec?sum[6]:''}</Text>
           </View>
         </View>
       </View>

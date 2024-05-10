@@ -24,7 +24,7 @@ const SignupPage = () => {
   
   const signUp = async () => {
   
-    axios.post('http://127.0.0.1:5050/auth/register', {
+    axios.post('http://192.168.219.188:5050/auth/register', {
       username: username,
       email: email,
       password: password,

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
     paddingRight:40,
-
+    // backgroundColor:"red"
    
   },
   headerLogo: {
