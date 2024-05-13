@@ -3,7 +3,7 @@ export default [
 		id: "1",
 		title: "Dakzin",
 		description: 
-		"Dakzin is an Animal Intrusion Detection System utilizes AI and IOT Technology to detect animal intrusion in fields.",
+		"Dakzin is an Animal Intrusion Detection System that utilizes AI and IOT Technology to detect animal intrusion in fields.",
 		image: require("../../assets/images/logo.png"),
 	},
 	{
