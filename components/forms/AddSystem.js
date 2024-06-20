@@ -9,8 +9,6 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { useRouter } from "expo-router";
-import { Redirect } from "expo-router";
-import * as SecureStore from "expo-secure-store";
 import { save } from "../../utils/secureStore";
 import { LinearGradient } from 'expo-linear-gradient';
 
