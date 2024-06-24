@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { Redirect } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
@@ -31,6 +31,16 @@ const App = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    const checkOnboardingAndLoginState = async () => {
+      await checkOnboarding();
+      if (viewedOnboarding) {
+        setLoading(false);
+        checkLoginState();
+      }
+    };
+    checkOnboardingAndLoginState();
+  }, []); // useEffect will re-run when viewedOnboarding changes
 
   const checkLoginState = async () => {
     try {
@@ -52,18 +62,6 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    const checkOnboardingAndLoginState = async () => {
-      await checkOnboarding();
-      if (!viewedOnboarding) {
-        return; // Don't check login state if onboarding is not viewed
-      }
-      checkLoginState();
-    };
-
-    checkOnboardingAndLoginState();
-  }, [viewedOnboarding]); // useEffect will re-run when viewedOnboarding changes
-
   return (
     <>
       {loading ? (
@@ -76,14 +74,5 @@ const App = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-  },
-});
 
 export default App;

@@ -30,7 +30,7 @@ const about_data = [
   },
   {
     id: 3,
-    bgimg: require("../assets/images/profilebg2.png"),
+    bgimg: require("../assets/images/cstbg.png"),
     title:
       "Fostering Innovation: CST and AMTC Collaborate on Cutting-Edge Projects",
     data:
@@ -38,7 +38,7 @@ const about_data = [
   },
   {
     id: 4,
-    bgimg: require("../assets/images/profilebg2.png"),
+    bgimg: require("../assets/images/cstbg.png"),
     profiles: [
       {
         id: 1,
